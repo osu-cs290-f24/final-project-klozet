@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Closet</title>
+    <link href="https://fonts.googleapis.com/css?family=McLaren&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 class="brand-logo">Virtual Clozet</h1>
+    </header>
+    <main>
+        <section id="closet">
+            <h2 class="closetHead">Your Closet</h2>
+            <input type="text" id="search-closet" placeholder="Search clothing items...">
+            <div class="filter-container">
+                <select id="color-sort">
+                    <option value="">All Colors</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="black">Black</option>
+                </select>
+                <select id="type-sort">
+                    <option value="">All Types</option>
+                    <option value="tops">Tops</option>
+                    <option value="bottoms">Bottoms</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+            </div>
+            <div class="closet-grid" id="closet-items"></div>
+            <button id="add-item-button" class="btn addBtn">Add Item</button>
+        </section>
+        <section id="outfits">
+            <h2 class="closetHead">Create Outfit</h2>
+            <div class="outfit-controls">
+                <button id="create-outfit-button" class="btn">Create Outfit</button>
+                <button id="add-to-outfit-button" class="btn hidden">Add to Outfit</button>
+                <button id="cancel-outfit-button" class="btn hidden">Cancel</button>
+                <input type="text" id="outfit-name" placeholder="Outfit Name" class="hidden">
+                <input type="text" id="outfit-category" placeholder="Outfit Category" class="hidden">
+                <button id="save-outfit-button" class="btn hidden">Save Outfit</button>
+            </div>
+            <div id="current-outfit" class="hidden"></div>
+        </section>
+        <section id="saved-outfits">
+            <h2 class="closetHead">Saved Outfits</h2>
+            <input type="text" id="search-outfits" placeholder="Search saved outfits...">
+            <div class="filter-container">
+                <select id="outfit-category-filter">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+            <div id="saved-outfits-container"></div>
+        </section>
+    </main>
+    <div id="modal-backdrop" class="hidden"></div>
+    <div id="add-item-modal" class="hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Add New Item to Your Closet</h3>
+            </div>
+            <div class="modal-body">
+                <div class="post-input-element">
+                    <label for="item-name">Item Name</label>
+                    <input type="text" id="item-name">
+                </div>
+                <div class="post-input-group">
+                    <div class="post-input-element">
+                        <label for="item-image">Image URL</label>
+                        <input type="text" id="item-image">
+                    </div>
+                    <div class="post-input-element">
+                        <label for="item-image-upload">Or Upload Image</label>
+                        <input type="file" id="item-image-upload" accept="image/*">
+                    </div>
+                </div>
+                <div class="post-input-group">
+                    <div class="post-input-element">
+                        <label for="item-type">Type</label>
+                        <select id="item-type">
+                            <option value="" disabled selected>Select Type</option>
+                            <option value="tops">Top</option>
+                            <option value="bottoms">Bottom</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessories">Accessory</option>
+                        </select>
+                    </div>
+                    <div class="post-input-element">
+                        <label for="item-type-new">Or Add New Type</label>
+                        <input type="text" id="item-type-new">
+                    </div>
+                </div>
+                <div class="post-input-group">
+                    <div class="post-input-element">
+                        <label for="item-color">Color</label>
+                        <select id="item-color">
+                            <option value="" disabled selected>Select Color</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="black">Black</option>
+                        </select>
+                    </div>
+                    <div class="post-input-element">
+                        <label for="item-color-new">Or Add New Color</label>
+                        <input type="text" id="item-color-new">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal-cancel" class="modal-hide-button action-button">Cancel</button>
+                <button type="button" id="modal-accept" class="action-button">Add Item</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
