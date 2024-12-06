@@ -239,3 +239,8 @@ input[type="text"], select {
     flex-basis: 100%;
   }
 }
+
+.clothing-item.selected {
+  border: 2px solid #3498db;
+  opacity: 0.8;
+}
