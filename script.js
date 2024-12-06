@@ -138,77 +138,106 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function cancelOutfitCreation() {
-        isSelectingOutfit = false;
-        createOutfitButton.classList.remove('hidden');
-        addToOutfitButton.classList.add('hidden');
-        cancelOutfitButton.classList.add('hidden');
-        document.getElementById('outfit-name').classList.add('hidden');
-        document.getElementById('outfit-category').classList.add('hidden');
-        saveOutfitButton.classList.add('hidden');
-        clearOutfitSelection();
+        isSelectingOutfit = false
+        createOutfitButton.classList.remove('hidden')
+        addToOutfitButton.classList.add('hidden')
+        cancelOutfitButton.classList.add('hidden')
+        document.getElementById('outfit-name').classList.add('hidden')
+        document.getElementById('outfit-category').classList.add('hidden')
+        saveOutfitButton.classList.add('hidden')
+        clearOutfitSelection()
     }
 
     function clearOutfitSelection() {
-        currentOutfit = [];
+        currentOutfit = []
+        document.getElementById('current-outfit').innerHTML = ''
+        document.getElementById('current-outfit').classList.add('hidden')
         document.querySelectorAll('.clothing-item.selected').forEach(item => {
-            item.classList.remove('selected');
-        });
+           item.classList.remove('selected')
+        })
     }
 
     function addToOutfit() {
-        const selectedItems = document.querySelectorAll('.clothing-item.selected');
+        const selectedItems = document.querySelectorAll('.clothing-item.selected')
         selectedItems.forEach(item => {
             if (!currentOutfit.includes(item)) {
-                currentOutfit.push(item);
-            }
-            item.classList.remove('selected');
-        });
+                currentOutfit.push(item.cloneNode(true))
+         }
+            item.classList.remove('selected')
+      })
+        renderCurrentOutfitPreview()
+    }
+
+    function renderCurrentOutfitPreview() {
+        const currentOutfitContainer = document.getElementById('current-outfit')
+        currentOutfitContainer.innerHTML = ''
+        currentOutfit.forEach(item => {
+            currentOutfitContainer.appendChild(item)
+        })
+        currentOutfitContainer.classList.remove('hidden')
     }
 
     function saveOutfit() {
-        if (currentOutfit.length === 0) {
-            alert('Please select items for your outfit');
-            return;
-        }
-
-        const outfitName = document.getElementById('outfit-name').value.trim();
-        const outfitCategory = document.getElementById('outfit-category').value;
+        const outfitName = document.getElementById('outfit-name').value.trim()
+        const outfitCategory = document.getElementById('outfit-category').value.trim()
 
         if (!outfitName || !outfitCategory) {
-            alert('Please provide an outfit name and category');
-            return;
+            alert('Please provide an outfit name and category.')
+            return
+        }
+        if (currentOutfit.length === 0) {
+            alert('Please select at least one item for your outfit.')
+            return
         }
 
         const outfit = {
             name: outfitName,
             category: outfitCategory,
             items: currentOutfit.map(item => item.outerHTML)
-        };
+        }
 
-        savedOutfits.push(outfit);
-        renderSavedOutfits();
-        cancelOutfitCreation();
+        savedOutfits.push(outfit)
+
+        const existingOptions = Array.from(outfitCategoryFilter.options).map(option => option.value.toLowerCase())
+        if (!existingOptions.includes(outfitCategory.toLowerCase())) {
+            const newOption = document.createElement('option')
+            newOption.value = outfitCategory
+            newOption.textContent = outfitCategory
+            outfitCategoryFilter.appendChild(newOption)
+        }
+        
+        
+        renderSavedOutfits()
+        cancelOutfitCreation()
     }
 
     function renderSavedOutfits() {
-        savedOutfitsContainer.innerHTML = '';
+        const savedOutfitsContainer = document.getElementById('saved-outfits-container')
+        savedOutfitsContainer.innerHTML = ''
+    
         const filteredOutfits = savedOutfits.filter(outfit => 
-            outfitCategoryFilter.value === '' || outfit.category === outfitCategoryFilter.value
-        );
-
+            !outfitCategoryFilter.value || outfit.category === outfitCategoryFilter.value
+        )
+    
         filteredOutfits.forEach(outfit => {
-            const outfitElement = document.createElement('div');
-            outfitElement.className = 'saved-outfit';
+            const outfitElement = document.createElement('div')
+            outfitElement.className = 'saved-outfit'
             outfitElement.innerHTML = `
                 <h3>${outfit.name}</h3>
                 <p>Category: ${outfit.category}</p>
                 <div class="outfit-preview">
                     ${outfit.items.join('')}
                 </div>
-            `;
-            savedOutfitsContainer.appendChild(outfitElement);
-        });
+            `
+            savedOutfitsContainer.appendChild(outfitElement)
+        })
     }
+
+    const options = Array.from(outfitCategoryFilter.options)
+    options.sort((a, b) => a.text.localeCompare(b.text))
+
+    outfitCategoryFilter.innerHTML = ''
+    options.forEach(option => outfitCategoryFilter.appendChild(option))
 
     addItemButton.addEventListener('click', showModal);
     cancelButton.addEventListener('click', hideModal);
