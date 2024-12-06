@@ -178,27 +178,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function saveOutfit() {
-    const outfitName = document.getElementById('outfit-name').value.trim()
-    const outfitCategory = document.getElementById('outfit-category').value.trim()
+        const outfitName = document.getElementById('outfit-name').value.trim()
+        const outfitCategory = document.getElementById('outfit-category').value.trim()
 
-    if (!outfitName || !outfitCategory) {
-        alert('Please provide an outfit name and category.')
-        return
-    }
-    if (currentOutfit.length === 0) {
-        alert('Please select at least one item for your outfit.')
-        return
-    }
+        if (!outfitName || !outfitCategory) {
+            alert('Please provide an outfit name and category.')
+            return
+        }
+        if (currentOutfit.length === 0) {
+            alert('Please select at least one item for your outfit.')
+            return
+        }
 
-    const outfit = {
-        name: outfitName,
-        category: outfitCategory,
-        items: currentOutfit.map(item => item.outerHTML)
-    }
+        const outfit = {
+            name: outfitName,
+            category: outfitCategory,
+            items: currentOutfit.map(item => item.outerHTML)
+        }
 
-    savedOutfits.push(outfit)
-    renderSavedOutfits()
-    cancelOutfitCreation()
+        savedOutfits.push(outfit)
+
+        const existingOptions = Array.from(outfitCategoryFilter.options).map(option => option.value.toLowerCase())
+        if (!existingOptions.includes(outfitCategory.toLowerCase())) {
+            const newOption = document.createElement('option')
+            newOption.value = outfitCategory
+            newOption.textContent = outfitCategory
+            outfitCategoryFilter.appendChild(newOption)
+        }
+        
+        
+        renderSavedOutfits()
+        cancelOutfitCreation()
     }
 
     function renderSavedOutfits() {
@@ -222,6 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
             savedOutfitsContainer.appendChild(outfitElement)
         })
     }
+
+    const options = Array.from(outfitCategoryFilter.options)
+    options.sort((a, b) => a.text.localeCompare(b.text))
+
+    outfitCategoryFilter.innerHTML = ''
+    options.forEach(option => outfitCategoryFilter.appendChild(option))
 
     addItemButton.addEventListener('click', showModal);
     cancelButton.addEventListener('click', hideModal);
