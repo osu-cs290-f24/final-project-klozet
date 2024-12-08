@@ -1,5 +1,5 @@
 # CS290 Final: Klozet
-> [closet product decription here] 
+> [closet project decription here] 
 
 ## Run:
 `npm start`
