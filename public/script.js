@@ -14,10 +14,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveOutfitButton = document.getElementById('save-outfit-button');
     const savedOutfitsContainer = document.getElementById('saved-outfits-container');
     const outfitCategoryFilter = document.getElementById('outfit-category-filter');
+    const searchOutfitsInput = document.getElementById('search-outfits');
     const allItems = [];
     const savedOutfits = [];
     let isSelectingOutfit = false;
     let currentOutfit = [];
+
+    function loadJSONData() {
+
+        fetch('closet.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(item => {
+                    addItemToCloset(item.name, item.type, item.color, item.imageURL);
+                });
+            })
+            .catch(error => console.error('Error loading clothes data:', error));
+    
+        fetch('outfits.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(outfit => {
+                    savedOutfits.push(outfit);
+                    renderSavedOutfits();
+                });
+            })
+            .catch(error => console.error('Error loading outfits data:', error));
+    }
 
     function showModal() {
         modal.classList.remove('hidden');
@@ -82,10 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
         newItem.dataset.type = type;
         newItem.dataset.color = color;
 
-        newItem.innerHTML = `
-            <img src="${imageURL}" alt="${name}">
-            <p>${name}</p>
-        `;
+        const nameElement = document.createElement('p');
+        nameElement.textContent = name;
+
+        const imgElement = document.createElement('img');
+        imgElement.src = imageURL;
+        imgElement.alt = name;    
+
+        newItem.appendChild(imgElement);
+        newItem.appendChild(nameElement);
 
         newItem.addEventListener('click', function() {
             if (isSelectingOutfit) {
@@ -123,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.style.display = '';
             } else {
                 item.style.display = 'none';
-            }
+            } 
         });
     }
 
@@ -193,7 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const outfit = {
             name: outfitName,
             category: outfitCategory,
-            items: currentOutfit.map(item => item.outerHTML)
+            items: currentOutfit.map(item => ({
+                name: item.querySelector('p').textContent, 
+                type: item.dataset.type, 
+                color: item.dataset.color, 
+                imageURL: item.querySelector('img').src 
+            }))
         }
 
         savedOutfits.push(outfit)
@@ -206,31 +239,55 @@ document.addEventListener('DOMContentLoaded', function() {
             outfitCategoryFilter.appendChild(newOption)
         }
         
+        const options = Array.from(outfitCategoryFilter.options)
+        options.sort((a, b) => a.text.localeCompare(b.text))
+        outfitCategoryFilter.innerHTML = ''
+        options.forEach(option => outfitCategoryFilter.appendChild(option))
+
+        const existingOutfit = savedOutfits.some(existingOutfit => existingOutfit.category === outfit.category);
         
         renderSavedOutfits()
         cancelOutfitCreation()
     }
 
     function renderSavedOutfits() {
-        const savedOutfitsContainer = document.getElementById('saved-outfits-container')
-        savedOutfitsContainer.innerHTML = ''
-    
-        const filteredOutfits = savedOutfits.filter(outfit => 
-            !outfitCategoryFilter.value || outfit.category === outfitCategoryFilter.value
-        )
-    
+        const searchTerm = searchOutfitsInput.value.toLowerCase();
+        const selectedCategory = outfitCategoryFilter.value.toLowerCase();
+        savedOutfitsContainer.innerHTML = ''; 
+
+        const filteredOutfits = savedOutfits.filter(outfit => {
+            const matchesCategory = selectedCategory === '' || outfit.category.toLowerCase() === selectedCategory;
+            const matchesSearchTerm = outfit.name.toLowerCase().includes(searchTerm);
+            return matchesCategory && matchesSearchTerm;
+        });
+
         filteredOutfits.forEach(outfit => {
-            const outfitElement = document.createElement('div')
-            outfitElement.className = 'saved-outfit'
-            outfitElement.innerHTML = `
-                <h3>${outfit.name}</h3>
-                <p>Category: ${outfit.category}</p>
-                <div class="outfit-preview">
-                    ${outfit.items.join('')}
-                </div>
-            `
-            savedOutfitsContainer.appendChild(outfitElement)
-        })
+            const outfitElement = document.createElement('div');
+            outfitElement.className = 'outfit-item';
+            outfitElement.innerHTML = `<h3>${outfit.name}</h3><p>${outfit.category}</p>`;
+            savedOutfitsContainer.appendChild(outfitElement);
+
+            const itemsContainer = document.createElement('div');
+            itemsContainer.className = 'outfit-items-container';
+            outfit.items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'outfit-item-preview';
+    
+                const itemImage = document.createElement('img');
+                itemImage.src = item.imageURL;
+                itemImage.alt = item.name;
+    
+                const itemName = document.createElement('p');
+                itemName.textContent = item.name;
+    
+                itemElement.appendChild(itemImage);
+                itemElement.appendChild(itemName);
+                itemsContainer.appendChild(itemElement);
+            });
+    
+            outfitElement.appendChild(itemsContainer);
+            savedOutfitsContainer.appendChild(outfitElement);
+        });
     }
 
     const options = Array.from(outfitCategoryFilter.options)
@@ -251,5 +308,8 @@ document.addEventListener('DOMContentLoaded', function() {
     cancelOutfitButton.addEventListener('click', cancelOutfitCreation);
     addToOutfitButton.addEventListener('click', addToOutfit);
     saveOutfitButton.addEventListener('click', saveOutfit);
+    searchOutfitsInput.addEventListener('input', renderSavedOutfits);
     outfitCategoryFilter.addEventListener('change', renderSavedOutfits);
+
+    loadJSONData();
 });
