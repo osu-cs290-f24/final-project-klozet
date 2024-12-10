@@ -62,6 +62,7 @@ input[type="text"], select {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
+  margin-top: 40px;
 }
 
 .clothing-item {
@@ -107,6 +108,11 @@ input[type="text"], select {
   background-color: #2980b9;
 }
 
+#add-item-button {
+  position: absolute;
+  top: 305px;
+}
+
 .outfit-controls {
   display: flex;
   flex-wrap: wrap;
@@ -127,8 +133,14 @@ input[type="text"], select {
 }
 
 #saved-outfits-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 4px;
+  max-width: autopx;;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
 }
 
@@ -244,3 +256,44 @@ input[type="text"], select {
   border: 2px solid #3498db;
   opacity: 0.8;
 }
+
+.outfit {
+  margin-top: auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.outfit h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.outfit-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  justify-items: center;
+}
+
+.outfit-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  width: 150px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.outfit-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.outfit-item:hover {
+  transform: scale(1.05);
+} 
