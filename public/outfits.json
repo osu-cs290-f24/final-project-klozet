@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+      "name": "Casual Outfit",
+      "category": "Casual",
+      "items": [
+        {
+          "name": "Blue Jeans",
+          "type": "bottoms",
+          "color": "blue",
+          "imageURL": "https://i.pinimg.com/474x/c7/b0/69/c7b0699c24378f1744cd6033036b4bc3.jpg"
+        },
+        {
+          "name": "White T-Shirt",
+          "type": "tops",
+          "color": "white",
+          "imageURL": "https://northwestriders.com/cdn/shop/products/tee_6040_White07.jpg?v=1547325074"
+        }
+      ]
+    },
+    {
+        "id": 2,
+      "name": "Cozy Outfit",
+      "category": "Casual",
+      "items": [
+        {
+          "name": "Blue Jeans",
+          "type": "bottoms",
+          "color": "blue",
+          "imageURL": "https://assets.vogue.com/photos/663a8ccd4e94e0f33e265f23/3:4/w_748%2Cc_limit/BestJeans_Slides%2520(1)_0022_image7.jpg"
+        },
+        {
+          "name": "Sweater",
+          "type": "tops",
+          "color": "beige",
+          "imageURL": "https://t4.ftcdn.net/jpg/08/68/36/29/360_F_868362902_1tiwaqMypFUXJgUTEpvzv6NuR0R0Htuc.jpg"
+        },
+        {
+          "name": "Slipper",
+          "type": "shoes",
+          "color": "chestnut",
+          "imageURL": "https://www.ugg.com/on/demandware.static/-/Sites-UGG-NA-master/default/dwaeaf441c/images/transparent/5955-CHE_1.png"
+        },
+        {
+          "name": "Earrings",
+          "type": "accessories",
+          "color": "gold",
+          "imageURL": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77040260_OR_B.jpg?imwidth=2048&imdensity=1&ts=1712752631120"
+        }
+      ]
+    },
+    {
+        "id": 3,
+      "name": "Relaxed Outfit",
+      "category": "Casual",
+      "items": [
+        {
+            "name": "Cargo sweatpants",
+            "type": "bottoms",
+            "color": "gray",
+            "imageURL": "https://27boutique.com/cdn/shop/files/Screenshot_567_740x.png?v=1708213130"
+        },
+        {
+            "name": "Hoodie",
+            "type": "tops",
+            "color": "gray",
+            "imageURL": "https://static.vecteezy.com/system/resources/thumbnails/045/965/866/small_2x/cozy-oversized-hoodie-drawstring-hood-kangaroo-pocket-fleece-lined-heather-gray-product-mockup-the-final-png.png"
+        }
+      ]
+    }
+  ]
+  
+  
+  
