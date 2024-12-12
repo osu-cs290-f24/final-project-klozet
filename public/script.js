@@ -61,7 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
         title: "Welcome to your Virtual Clozet!",
         text: "Add items to Your Closet, then choose one and click Add to Outfit. \n Repeat until you're happy with your look, then save it! \nYou can view your saved outfits below. \nHappy outfit making!",
-        icon: "info",
+        // icon: "info",
+        imageUrl: 'closet.png',
+        imageWidth: 200,
+        imageHeight: 200,
+        imageAlt: 'Closet Icon',
         confirmButtonText: "Get Started",
         customClass: {
             closeButton: 'custom-close-btn'
