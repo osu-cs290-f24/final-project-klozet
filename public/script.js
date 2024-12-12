@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error loading outfits data:', error))
     }
 
-    function showSweetAlert() {
+    function showWelcomeAlert() {
         Swal.fire({
         title: "Welcome to your Virtual Clozet!",
         text: "Add items to Your Closet, then choose one and click Add to Outfit. \n Repeat until you're happy with your look, then save it! \nYou can view your saved outfits below. \nHappy outfit making!",
@@ -75,15 +75,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    window.onload = function () {
-        showSweetAlert();
-    };
+    // window.onload = function () {
+    //     showWelcomeAlert();
+    // };
     
     document.getElementById("open-tutorial").onclick = function () {
-        showSweetAlert();
+        showWelcomeAlert();
     };
-  
 
+    document.getElementById('more-ideas-button').addEventListener('click', function() {
+        window.open('https://www.pinterest.com', '_blank');
+      });
+
+    function showOutfitSuccessAlert() {
+        Swal.fire({
+        title: "Success!",
+        text: "Your outfit has been saved successfully!",
+        icon: "success",
+        customClass: {
+            closeButton: 'custom-close-btn'
+          }
+        }).then(() => {
+        document.getElementById("save-outfit-button").classList.remove("hidden");
+        });
+    }
+
+    function showMissingNameCategoryError() {
+        Swal.fire({
+        title: "Oops!",
+        text: "Don't forget to provide an outfit name and category.",
+        icon: "warning",
+        customClass: {
+            closeButton: 'custom-close-btn'
+          }
+        }).then(() => {
+        document.getElementById("save-outfit-button").classList.remove("hidden");
+        });
+    }
+
+    function showMissingItemError() {
+        Swal.fire({
+        title: "Oops!",
+        text: "Don't forget to add at least one item to complete your outfit!.",
+        icon: "warning",
+        customClass: {
+            closeButton: 'custom-close-btn'
+          }
+        }).then(() => {
+        document.getElementById("save-outfit-button").classList.remove("hidden");
+        });
+    }
+  
     function showModal() {
         modal.classList.remove('hidden');
         modalBackdrop.classList.remove('hidden');
@@ -252,11 +294,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const outfitCategory = document.getElementById('outfit-category').value.trim()
 
         if (!outfitName || !outfitCategory) {
-            alert('Please provide an outfit name and category.')
+            showMissingNameCategoryError()
             return
         }
         if (currentOutfit.length === 0) {
-            alert('Please select at least one item for your outfit.')
+            showMissingItemError()
             return
         }
 
@@ -288,6 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const existingOutfit = savedOutfits.some(existingOutfit => existingOutfit.category === outfit.category);
         
+        showOutfitSuccessAlert()
         renderSavedOutfits()
         cancelOutfitCreation()
     }
