@@ -26,20 +26,35 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 data.forEach(item => {
-                    addItemToCloset(item.name, item.type, item.color, item.imageURL);
-                });
+                    addItemToCloset(item.name, item.type, item.color, item.imageURL)
+                })
             })
-            .catch(error => console.error('Error loading clothes data:', error));
-    
+            .catch(error => console.error('Error loading clothes data:', error))
+
         fetch('outfits.json')
             .then(response => response.json())
             .then(data => {
                 data.forEach(outfit => {
-                    savedOutfits.push(outfit);
-                    renderSavedOutfits();
-                });
+                    savedOutfits.push(outfit)
+
+                    const category = outfit.category
+                    const existingOptions = Array.from(outfitCategoryFilter.options).map(option => option.value.toLowerCase())
+                    if (!existingOptions.includes(category.toLowerCase())) {
+                        const newOption = document.createElement('option')
+                        newOption.value = category.toLowerCase()
+                        newOption.textContent = category
+                        outfitCategoryFilter.appendChild(newOption)
+                    }
+                })
+
+                const options = Array.from(outfitCategoryFilter.options)
+                options.sort((a, b) => a.text.localeCompare(b.text))
+                outfitCategoryFilter.innerHTML = ''
+                options.forEach(option => outfitCategoryFilter.appendChild(option))
+
+                renderSavedOutfits()
             })
-            .catch(error => console.error('Error loading outfits data:', error));
+            .catch(error => console.error('Error loading outfits data:', error))
     }
 
     function showModal() {
