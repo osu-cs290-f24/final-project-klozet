@@ -57,6 +57,29 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error loading outfits data:', error))
     }
 
+    function showSweetAlert() {
+        Swal.fire({
+        title: "Welcome to your Virtual Clozet!",
+        text: "Add items to Your Closet, then choose one and click Add to Outfit. \n Repeat until you're happy with your look, then save it! \nYou can view your saved outfits below. \nHappy outfit making!",
+        icon: "info",
+        confirmButtonText: "Get Started",
+        customClass: {
+            closeButton: 'custom-close-btn'
+          }
+        }).then(() => {
+        document.getElementById("open-tutorial").classList.remove("hidden");
+        });
+    }
+    
+    window.onload = function () {
+        showSweetAlert();
+    };
+    
+    document.getElementById("open-tutorial").onclick = function () {
+        showSweetAlert();
+    };
+  
+
     function showModal() {
         modal.classList.remove('hidden');
         modalBackdrop.classList.remove('hidden');
