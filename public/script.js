@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // window.onload = function () {
-    //     showWelcomeAlert();
-    // };
+    window.onload = function () {
+        showWelcomeAlert();
+    };
     
     document.getElementById("open-tutorial").onclick = function () {
         showWelcomeAlert();
